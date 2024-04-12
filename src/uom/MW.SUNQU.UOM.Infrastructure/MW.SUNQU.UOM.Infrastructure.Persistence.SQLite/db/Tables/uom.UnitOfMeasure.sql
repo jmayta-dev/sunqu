@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS [UnitOfMeasure];
+CREATE TABLE IF NOT EXISTS [UnitOfMeasure] (
+    [Id] INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+    [Description] TEXT UNIQUE NOT NULL,
+    [Abbreviation] TEXT UNIQUE NOT NULL,
+    [NumericalValue] REAL NULL,
+    [BaseUnit] INTEGER NULL
+)
