@@ -1,11 +1,9 @@
 using MediatR;
-using MW.CHUYA.Application.Common.Interfaces;
-using MW.CHUYA.Application.UseCases.Common.Base;
+using MW.CHUYA.Application.UseCases.Common;
 using MW.SUNQU.UOM.Application.DTOs;
 using MW.SUNQU.UOM.Domain.Entities;
 using MW.SUNQU.UOM.Domain.Interfaces;
 using MW.SUNQU.UOM.Domain.ValueObject;
-using System.Data.Common;
 
 namespace MW.SUNQU.UOM.Application.UseCases.Commands;
 
@@ -44,7 +42,7 @@ public class RegisterUnitOfMeasureHandler :
 
         // registrar y obtener id de unidad de medida
         UnitOfMeasureId unitOfMeasureId =
-            await _unitOfWorkUom.UnitOfMeasure.RegisterAsync(uom, cancellationToken);
+            await _unitOfWorkUom.UnitOfMeasureRepository.RegisterAsync(uom, cancellationToken);
 
         // confirmar y grabar cambios
         await _unitOfWorkUom.SaveChangesAsync(cancellationToken);
@@ -56,7 +54,7 @@ public class RegisterUnitOfMeasureHandler :
             Abbreviation = uom.Abbreviation,
             Description = uom.Description,
             NumericalValue = uom.NumericalVaue,
-            BaseUnit = uom.BaseUnit
+            BaseUnit = uom.BaseUnitId
         };
         // retornar respuesta
         return new BaseResponse<UnitOfMeasureDto>
