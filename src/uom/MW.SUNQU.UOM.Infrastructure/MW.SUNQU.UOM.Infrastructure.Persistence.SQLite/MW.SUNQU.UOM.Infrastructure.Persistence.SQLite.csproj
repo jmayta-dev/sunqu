@@ -1,21 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\MW.SUNQU.UOM.Domain\MW.SUNQU.UOM.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    </ItemGroup>
+
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\MW.SUNQU.UOM.Domain\MW.SUNQU.UOM.Domain.csproj" />
-        <ProjectReference Include="..\..\..\..\..\chuya\src\MW.CHUYA.Application\MW.CHUYA.Application.csproj" />
-        <ProjectReference Include="..\..\MW.SUNQU.UOM.Application\MW.SUNQU.UOM.Application.csproj" />
-    </ItemGroup>
 
 </Project>
