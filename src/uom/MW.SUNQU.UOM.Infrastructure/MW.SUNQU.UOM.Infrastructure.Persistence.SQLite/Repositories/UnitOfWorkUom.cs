@@ -1,25 +1,27 @@
 using Microsoft.Data.Sqlite;
-using MW.CHUYA.Application.Common.Interfaces;
+using MW.SUNQU.UOM.Domain.Interfaces;
 using MW.SUNQU.UOM.Infrastructure.Persistence.SQLite.Context;
 
 namespace MW.SUNQU.UOM.Infrastructure.Persistence.SQLite.Repositories;
 
-public class UnitOfWorkSQLite : IUnitOfWork
+public class UnitOfWorkUom : IUnitOfWorkUom
 {
     #region Properties & Variables
     //
     // private
     //
     private bool disposed = false;
-    private SqliteConnection _connection { get; init; }
-    private SqliteTransaction _transaction { get; init; }
+    private readonly SqliteConnection _connection;
+    private readonly SqliteTransaction _transaction;
     //
     // public
     //
+    public IUnitOfMeasureRepository UnitOfMeasure =>
+        new UnitOfMeasureRepository(_connection, _transaction);
     #endregion
 
     #region Constructor
-    public UnitOfWorkSQLite(UnitOfMeasureDbContext context)
+    public UnitOfWorkUom(UnitOfMeasureDbContext context)
     {
         _connection = (SqliteConnection)context.Connection;
         _connection.Open();
@@ -43,6 +45,7 @@ public class UnitOfWorkSQLite : IUnitOfWork
             disposed = true;
         }
     }
+
     public void Dispose()
     {
         Dispose(true);
@@ -50,13 +53,15 @@ public class UnitOfWorkSQLite : IUnitOfWork
     }
     #endregion
 
-    public Task RollbackAsync(CancellationToken cancellationToken = default)
+    #region Methods
+    public async Task RollbackAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await Task.Run(() => _transaction.Rollback(), cancellationToken);
     }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        await Task.Run(() => _transaction.Commit(), cancellationToken);
     }
+    #endregion Methods
 }

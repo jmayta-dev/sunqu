@@ -1,22 +1,17 @@
-using System.Data;
-using System.Data.Common;
-using System.Runtime.CompilerServices;
 using Microsoft.Data.Sqlite;
 using MW.SUNQU.UOM.Domain.Entities;
 using MW.SUNQU.UOM.Domain.Interfaces;
 using MW.SUNQU.UOM.Domain.ValueObject;
-using MW.SUNQU.UOM.Infrastructure.Persistence.SQLite.Context;
 
 namespace MW.SUNQU.UOM.Infrastructure.Persistence.SQLite.Repositories;
 
-public class UnitOfMeasureRepository : IUnitOfMeasureRepository
+public class UnitOfMeasureRepository : Repository, IUnitOfMeasureRepository
 {
     #region Properties & Variables
     //
     // private
     //
     private bool _disposed = false;
-    private readonly UnitOfMeasureDbContext _context;
     //
     // public
     //
@@ -29,8 +24,8 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
         {
             if (disposing)
             {
-                _context?.Connection?.Close();
-                _context?.Connection?.Dispose();
+                _connection?.Close();
+                _connection?.Dispose();
             }
             _disposed = true;
         }
@@ -44,34 +39,34 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
     #endregion
 
     #region Constructor
-    public UnitOfMeasureRepository(UnitOfMeasureDbContext context)
+    public UnitOfMeasureRepository(
+        SqliteConnection connection, SqliteTransaction transaction) :
+        base(connection, transaction)
     {
-        _context = context;
+
     }
-    #endregion
+    #endregion Constructor
+
+    #region Methods
     public Task<bool> BulkRegisterUom(IEnumerable<UnitOfMeasure> uomCollection)
     {
         throw new NotImplementedException();
     }
 
 
-    public async Task<IEnumerable<UnitOfMeasure>> GetAllUnitsOfMeasureAsync(
+    public async Task<IEnumerable<UnitOfMeasure>> GetAllAsync(
         CancellationToken cancellationToken = default)
     {
         List<UnitOfMeasure> uoms = new();
-        using SqliteConnection connection = (SqliteConnection)_context.Connection;
-        await connection.OpenAsync(cancellationToken);
-
-        using SqliteTransaction uomTransaction =
-            (SqliteTransaction)await connection.BeginTransactionAsync(cancellationToken);
-        using SqliteCommand command = new();
-        command.CommandText =
+        string query =
         @"
-            SELECT *
-            FROM UnitOfMeasure
+            SELECT
+                Id, Description, Abbreviation,
+                NumericalValue, BaseUnit
+            FROM
+                UnitOfMeasure
         ";
-        command.Transaction = uomTransaction;
-        command.Connection = connection;
+        using SqliteCommand command = CreateCommand(query);
 
         SqliteDataReader reader =
             await command.ExecuteReaderAsync(cancellationToken);
@@ -92,38 +87,14 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
         return uoms ?? new List<UnitOfMeasure>();
     }
 
-    public Task<UnitOfMeasureId> RegisterUnitOfMeasure(UnitOfMeasure uom)
+    public Task<bool> BulkRegisterAsync(IEnumerable<UnitOfMeasure> uomCollection, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UnitOfMeasureId> RegisterUnitOfMeasureAsync(UnitOfMeasure uom, out DbTransaction transaction)
+    public Task<UnitOfMeasureId> RegisterAsync(UnitOfMeasure uom, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
-
-    public Task<IEnumerable<UnitOfMeasure>> GetAllUnitsOfMeasureAsync(out DbTransaction transaction)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<UnitOfMeasureId> RegisterUnitOfMeasureAsync(UnitOfMeasure uom, out IDbTransaction transaction)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> BulkRegisterAsync(IEnumerable<UnitOfMeasure> uomCollection)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<UnitOfMeasure>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<UnitOfMeasureId> RegisterUnitOfMeasureAsync(UnitOfMeasure uom)
-    {
-        throw new NotImplementedException();
-    }
+    #endregion Methods
 }

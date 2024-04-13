@@ -13,18 +13,14 @@ public class RegisterUnitOfMeasureHandler :
 {
     #region Properties & Variables
     // private
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IUnitOfMeasureRepository _uomRepository;
+    private readonly IUnitOfWorkUom _unitOfWorkUom;
     // public
     #endregion
 
     #region Constructor
-    public RegisterUnitOfMeasureHandler(
-        IUnitOfWork unitOfWork,
-        IUnitOfMeasureRepository uomRepository)
+    public RegisterUnitOfMeasureHandler(IUnitOfWorkUom unitOfWorkUom)
     {
-        _unitOfWork = unitOfWork;
-        _uomRepository = uomRepository;
+        _unitOfWorkUom = unitOfWorkUom;
     }
     #endregion
 
@@ -47,10 +43,10 @@ public class RegisterUnitOfMeasureHandler :
 
         // registrar y obtener id de unidad de medida
         UnitOfMeasureId unitOfMeasureId =
-            await _uomRepository.RegisterUnitOfMeasureAsync(uom);
+            await _unitOfWorkUom.UnitOfMeasure.RegisterAsync(uom, cancellationToken);
 
         // confirmar y grabar cambios
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWorkUom.SaveChangesAsync(cancellationToken);
 
         // retornar resultado
         return new UnitOfMeasureDto
@@ -58,7 +54,8 @@ public class RegisterUnitOfMeasureHandler :
             Id = unitOfMeasureId,
             Abbreviation = uom.Abbreviation,
             Description = uom.Description,
-            NumericalValue = uom.NumericalVaue
+            NumericalValue = uom.NumericalVaue,
+            BaseUnit = uom.BaseUnit
         };
     }
     #endregion

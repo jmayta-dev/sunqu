@@ -14,8 +14,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\MW.SUNQU.UOM.Domain\MW.SUNQU.UOM.Domain.csproj" />
-        <ProjectReference
-            Include="..\..\..\..\..\chuya\src\MW.CHUYA.Application\MW.CHUYA.Application.csproj" />
+        <ProjectReference Include="..\..\..\..\..\chuya\src\MW.CHUYA.Application\MW.CHUYA.Application.csproj" />
+        <ProjectReference Include="..\..\MW.SUNQU.UOM.Application\MW.SUNQU.UOM.Application.csproj" />
     </ItemGroup>
 
 </Project>
