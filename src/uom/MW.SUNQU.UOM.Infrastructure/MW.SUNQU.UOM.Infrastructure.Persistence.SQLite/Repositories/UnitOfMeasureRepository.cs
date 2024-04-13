@@ -21,7 +21,7 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
     // public
     //
     #endregion
-    
+
     #region IDisposable Support
     protected virtual void Dispose(bool disposing)
     {
@@ -61,7 +61,7 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
         List<UnitOfMeasure> uoms = new();
         using SqliteConnection connection = (SqliteConnection)_context.Connection;
         await connection.OpenAsync(cancellationToken);
-        
+
         using SqliteTransaction uomTransaction =
             (SqliteTransaction)await connection.BeginTransactionAsync(cancellationToken);
         using SqliteCommand command = new();
@@ -72,12 +72,12 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
         ";
         command.Transaction = uomTransaction;
         command.Connection = connection;
-        
+
         SqliteDataReader reader =
             await command.ExecuteReaderAsync(cancellationToken);
 
-        if(reader.HasRows)
-            while(await reader.ReadAsync(cancellationToken))
+        if (reader.HasRows)
+            while (await reader.ReadAsync(cancellationToken))
             {
                 UnitOfMeasure.Builder uomBuilder = new();
                 uomBuilder.WithDescription(
@@ -108,6 +108,21 @@ public class UnitOfMeasureRepository : IUnitOfMeasureRepository
     }
 
     public Task<UnitOfMeasureId> RegisterUnitOfMeasureAsync(UnitOfMeasure uom, out IDbTransaction transaction)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> BulkRegisterAsync(IEnumerable<UnitOfMeasure> uomCollection)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UnitOfMeasure>> GetAllAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UnitOfMeasureId> RegisterUnitOfMeasureAsync(UnitOfMeasure uom)
     {
         throw new NotImplementedException();
     }

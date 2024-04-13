@@ -47,11 +47,10 @@ public class RegisterUnitOfMeasureHandler :
 
         // registrar y obtener id de unidad de medida
         UnitOfMeasureId unitOfMeasureId =
-            await _uomRepository.RegisterUnitOfMeasureAsync(
-                uom, out DbTransaction transaction);
-        
+            await _uomRepository.RegisterUnitOfMeasureAsync(uom);
+
         // confirmar y grabar cambios
-        await _unitOfWork.SaveChangesAsync(transaction, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         // retornar resultado
         return new UnitOfMeasureDto
