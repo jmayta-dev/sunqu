@@ -16,7 +16,7 @@ public class UnitOfWorkUom : IUnitOfWorkUom
     //
     // public
     //
-    public IUnitOfMeasureRepository UnitOfMeasure =>
+    public IUnitOfMeasureRepository UnitOfMeasureRepository =>
         new UnitOfMeasureRepository(_connection, _transaction);
     #endregion
 

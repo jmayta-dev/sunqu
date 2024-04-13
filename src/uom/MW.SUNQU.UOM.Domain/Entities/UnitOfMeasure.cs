@@ -5,11 +5,14 @@ namespace MW.SUNQU.UOM.Domain.Entities;
 
 public class UnitOfMeasure: IEntity<UnitOfMeasureId>
 {
+    #region Properties
     public UnitOfMeasureId? Id { get; set; }
     public string Description { get; set; }
     public string Abbreviation { get; set; }
     public float? NumericalVaue { get; set; }
-    public UnitOfMeasureId? BaseUnit { get; set; }
+    public UnitOfMeasureId? BaseUnitId { get; set; }
+    public bool IsActive { get; set; }
+    #endregion Properties
 
     #region Contructor
     private UnitOfMeasure(
@@ -18,8 +21,9 @@ public class UnitOfMeasure: IEntity<UnitOfMeasureId>
     {
         Description = description;
         Abbreviation = abbreviation;
+        IsActive = true;
     }
-    #endregion
+    #endregion Constructor
 
     /// <summary>
     /// Builder for Unit of Measurement
@@ -69,7 +73,7 @@ public class UnitOfMeasure: IEntity<UnitOfMeasureId>
 
         public void WithBaseUnit(UnitOfMeasureId? baseUnitId)
         {
-            _unitOfMeasure.BaseUnit = baseUnitId;
+            _unitOfMeasure.BaseUnitId = baseUnitId;
         }
 
         public void WithDescription(string description)
