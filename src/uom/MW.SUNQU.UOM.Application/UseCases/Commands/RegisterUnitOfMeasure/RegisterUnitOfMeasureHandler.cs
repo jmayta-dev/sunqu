@@ -1,5 +1,6 @@
 using MediatR;
 using MW.CHUYA.Application.Common.Interfaces;
+using MW.CHUYA.Application.UseCases.Common.Base;
 using MW.SUNQU.UOM.Application.DTOs;
 using MW.SUNQU.UOM.Domain.Entities;
 using MW.SUNQU.UOM.Domain.Interfaces;
@@ -9,7 +10,7 @@ using System.Data.Common;
 namespace MW.SUNQU.UOM.Application.UseCases.Commands;
 
 public class RegisterUnitOfMeasureHandler :
-    IRequestHandler<RegisterUnitOfMeasureCommand, UnitOfMeasureDto>
+    IRequestHandler<RegisterUnitOfMeasureCommand, BaseResponse<UnitOfMeasureDto>>
 {
     #region Properties & Variables
     // private
@@ -25,7 +26,7 @@ public class RegisterUnitOfMeasureHandler :
     #endregion
 
     #region Methods
-    public async Task<UnitOfMeasureDto> Handle(
+    public async Task<BaseResponse<UnitOfMeasureDto>> Handle(
         RegisterUnitOfMeasureCommand request,
         CancellationToken cancellationToken)
     {
@@ -48,14 +49,20 @@ public class RegisterUnitOfMeasureHandler :
         // confirmar y grabar cambios
         await _unitOfWorkUom.SaveChangesAsync(cancellationToken);
 
-        // retornar resultado
-        return new UnitOfMeasureDto
+        // preparar respuesta
+        var uomDto = new UnitOfMeasureDto
         {
             Id = unitOfMeasureId,
             Abbreviation = uom.Abbreviation,
             Description = uom.Description,
             NumericalValue = uom.NumericalVaue,
             BaseUnit = uom.BaseUnit
+        };
+        // retornar respuesta
+        return new BaseResponse<UnitOfMeasureDto>
+        {
+            IsSuccess = true,
+            Data = uomDto
         };
     }
     #endregion

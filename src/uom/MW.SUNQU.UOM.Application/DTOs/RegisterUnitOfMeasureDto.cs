@@ -8,4 +8,10 @@ public record RegisterUnitOfMeasureDto
     public string Abbreviation { get; init; }
     public float? NumericalValue { get; init; }
     public UnitOfMeasureId? BaseUnit { get; init; }
+
+    public RegisterUnitOfMeasureDto(string description, string abbreviation)
+    {
+        Description = description;
+        Abbreviation = abbreviation;
+    }
 }
