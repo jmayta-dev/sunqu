@@ -4,6 +4,7 @@ using MW.SUNQU.UOM.Application.DTOs;
 using MW.SUNQU.UOM.Application.UseCases.Queries.GetAllUnitsOfMeasure;
 using MW.SUNQU.UOM.Domain.Entities;
 using MW.SUNQU.UOM.Domain.Interfaces;
+using MW.SUNQU.UOM.Domain.ValueObject;
 
 namespace MW.SUNQU.UOM.Application.UseCases.Queries;
 
@@ -41,7 +42,7 @@ public class GetAllUnitsOfMeasureHandler
                 await _unitOfWorkUom
                     .UnitOfMeasureRepository
                     .GetAllAsync(cancellationToken);
-            
+
             if (uomCollection is not null)
             {
                 // map UnitOfMeasure -> GetAllUnitsOfMeasureDto

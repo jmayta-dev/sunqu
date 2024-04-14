@@ -48,12 +48,6 @@ public class UnitOfMeasureRepository : Repository, IUnitOfMeasureRepository
     #endregion Constructor
 
     #region Methods
-    public Task<bool> BulkRegisterUom(IEnumerable<UnitOfMeasure> uomCollection)
-    {
-        throw new NotImplementedException();
-    }
-
-
     public async Task<IEnumerable<UnitOfMeasure>> GetAllAsync(
         CancellationToken cancellationToken = default)
     {
@@ -62,39 +56,45 @@ public class UnitOfMeasureRepository : Repository, IUnitOfMeasureRepository
         @"
             SELECT
                 Id, Description, Abbreviation,
-                NumericalValue, BaseUnit
+                NumericalValue, BaseUnitId
             FROM
                 UnitOfMeasure
         ";
-        using SqliteCommand command = CreateCommand(query);
+        using (SqliteCommand command = CreateCommand(query))
+        {
+            var reader = await command.ExecuteReaderAsync(cancellationToken);
+            if (reader.HasRows)
+                while (await reader.ReadAsync(cancellationToken))
+                {
+                    UnitOfMeasure.Builder uomBuilder = new();
+                    uomBuilder.WithId(
+                        reader.GetInt32(reader.GetOrdinal("Id")));
 
-        SqliteDataReader reader =
-            await command.ExecuteReaderAsync(cancellationToken);
+                    uomBuilder.WithDescription(
+                        reader.GetString(reader.GetOrdinal("Description")));
 
-        if (reader.HasRows)
-            while (await reader.ReadAsync(cancellationToken))
-            {
-                UnitOfMeasure.Builder uomBuilder = new();
-                uomBuilder.WithDescription(
-                    reader.GetString(reader.GetOrdinal("Description"))
-                );
-                uomBuilder.WithAbbreviation(
-                    reader.GetString(reader.GetOrdinal("Abbreviation"))
-                );
-                uoms.Add(uomBuilder.Build());
-            }
+                    uomBuilder.WithAbbreviation(
+                        reader.GetString(reader.GetOrdinal("Abbreviation")));
 
-        return uoms ?? new List<UnitOfMeasure>();
+                    UnitOfMeasure uom = uomBuilder.Build();
+                    uoms.Add(uom);
+                }
+        }
+        return uoms;
     }
 
-    public Task<bool> BulkRegisterAsync(IEnumerable<UnitOfMeasure> uomCollection, CancellationToken cancellationToken = default)
+    public Task<bool> BulkRegisterAsync(
+        IEnumerable<UnitOfMeasure> uomCollection,
+        CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UnitOfMeasureId> RegisterAsync(UnitOfMeasure uom, CancellationToken cancellationToken = default)
+    public Task<UnitOfMeasureId> RegisterAsync(
+        UnitOfMeasure uom,
+        CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
-    #endregion Methods
+    #endregion
 }
