@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MW.SUNQU.UOM.Domain\MW.SUNQU.UOM.Domain.csproj" />
+        <ProjectReference Include="..\..\MW.SUNQU.UOM.Domain\MW.SUNQU.UOM.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="../../MW.SUNQU.UOM.Infrastructure/MW.SUNQU.UOM.Infrastructure.Persistence.SQLite/db/sunqu.uom.db">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <Visible>True</Visible>
-      </Content>
+        <Content
+            Include="../../MW.SUNQU.UOM.Infrastructure/MW.SUNQU.UOM.Infrastructure.Persistence.SQLite/db/sunqu.uom.db">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>True</Visible>
+        </Content>
     </ItemGroup>
 
 

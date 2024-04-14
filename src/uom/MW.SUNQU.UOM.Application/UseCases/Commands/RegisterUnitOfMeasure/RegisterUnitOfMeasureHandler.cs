@@ -60,7 +60,8 @@ public class RegisterUnitOfMeasureHandler :
         return new BaseResponse<UnitOfMeasureDto>
         {
             IsSuccess = true,
-            Data = uomDto
+            Data = uomDto,
+            Message = "Unit registered successfully."
         };
     }
     #endregion
