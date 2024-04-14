@@ -2,9 +2,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\MW.SUNQU.UOM.Application\MW.SUNQU.UOM.Application.csproj" />
+        <ProjectReference Include="..\..\MW.SUNQU.UOM.Infrastructure\MW.SUNQU.UOM.Infrastructure.Persistence.SQLite\MW.SUNQU.UOM.Infrastructure.Persistence.SQLite.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
