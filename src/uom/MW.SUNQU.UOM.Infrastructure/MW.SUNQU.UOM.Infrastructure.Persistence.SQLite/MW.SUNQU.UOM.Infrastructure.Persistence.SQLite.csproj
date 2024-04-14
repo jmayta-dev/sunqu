@@ -7,7 +7,16 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="../../MW.SUNQU.UOM.Infrastructure/MW.SUNQU.UOM.Infrastructure.Persistence.SQLite/db/sunqu.uom.db">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Visible>True</Visible>
+      </Content>
+    </ItemGroup>
+
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>

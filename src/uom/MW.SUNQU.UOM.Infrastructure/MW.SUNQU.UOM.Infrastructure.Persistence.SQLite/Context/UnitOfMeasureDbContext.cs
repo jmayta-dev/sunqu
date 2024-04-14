@@ -20,7 +20,7 @@ public class  UnitOfMeasureDbContext
     public UnitOfMeasureDbContext(IConfiguration configuration)
     {
         _connectionString =
-            configuration.GetConnectionString("SUNQU.SQLite") ?? string.Empty;
+            configuration.GetConnectionString("SUNQU.UOM.SQLite.DB") ?? string.Empty;
     }
     #endregion
 }
