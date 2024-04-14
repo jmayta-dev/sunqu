@@ -3,7 +3,7 @@ using MW.SUNQU.UOM.Domain.ValueObject;
 
 namespace MW.SUNQU.UOM.Domain.Entities;
 
-public class UnitOfMeasure: IEntity<UnitOfMeasureId>
+public class UnitOfMeasure : IEntity<UnitOfMeasureId>
 {
     #region Properties
     public UnitOfMeasureId? Id { get; set; }
@@ -64,6 +64,11 @@ public class UnitOfMeasure: IEntity<UnitOfMeasureId>
         public void Reset()
         {
             _unitOfMeasure = new UnitOfMeasure(string.Empty, string.Empty);
+        }
+
+        public void WithId(int id)
+        {
+            _unitOfMeasure.Id = new UnitOfMeasureId(id);
         }
 
         public void WithAbbreviation(string abbreviation)
