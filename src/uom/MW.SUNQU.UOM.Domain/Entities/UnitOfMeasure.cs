@@ -66,11 +66,6 @@ public class UnitOfMeasure : IEntity<UnitOfMeasureId>
             _unitOfMeasure = new UnitOfMeasure(string.Empty, string.Empty);
         }
 
-        public void WithId(int id)
-        {
-            _unitOfMeasure.Id = new UnitOfMeasureId(id);
-        }
-
         public void WithAbbreviation(string abbreviation)
         {
             _unitOfMeasure.Abbreviation = abbreviation;
@@ -84,6 +79,11 @@ public class UnitOfMeasure : IEntity<UnitOfMeasureId>
         public void WithDescription(string description)
         {
             _unitOfMeasure.Description = description;
+        }
+
+        public void WithId(int id)
+        {
+            _unitOfMeasure.Id = new UnitOfMeasureId(id);
         }
 
         public void WithNumericalValue(float? numericalValue)
